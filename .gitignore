@@ -1,0 +1,16 @@
+*.pyc
+*.dot
+*.png
+test/
+data/Campos_Premium.xls
+data/Resultado1.spv
+data/abril.sav
+data/abril_2014.txt
+data/abril_2014.txt.nemi
+data/abril_2014.zip
+data/clases/
+data/producto_premium_2014.txt
+data/producto_premium_2014.zip
+data/res_arbol_default.spv
+papers/
+tp/src/settings.py
