@@ -41,8 +41,8 @@ if __name__ == '__main__':
             description='decision tree evaluator.')
     parser.add_argument('-d', '--dot_file', type=str, default='tree.dot', help='output dot file')
     parser.add_argument('-f', '--data_file', type=str, help='train data file')
-    parser.add_argument('-t', '--train_ratio', type=float, default=0.5, help='training set portion (0.0, 1.0]')
-#    parser.add_argument('-q', '--quiet', action='store_true', help='do not show graph at the end')
+    parser.add_argument('-t', '--test_ratio', type=float, default=0.3, help='test set portion')
+    parser.add_argument('-s', '--split_seed', type=int, default=0, help='seed for the shuffle function')
     args = parser.parse_args()
 
     # read the csv files
@@ -63,9 +63,13 @@ if __name__ == '__main__':
             april_data[c] = april_data[c].fillna(NAN_REPLACE)
             mins.append(april_data[c].min())
     assert(NAN_REPLACE == min(mins))
-    print 'training ... '    
+    print 'training ... '
+    X_train, X_test, y_train, y_test = train_test_split(
+                april_data, april['clase'], 
+                test_size=args.test_ratio, 
+                random_state=args.split_seed)
     clf = tree.DecisionTreeClassifier(max_depth=5)
-    clf = clf.fit(april_data, april['clase'])
+    clf = clf.fit(X_train, y_train)
     print 'done!'
     tree.export_graphviz(clf, out_file=args.dot_file)
     leafs = get_leafs(args.dot_file)
@@ -94,5 +98,3 @@ if __name__ == '__main__':
 #    for i in range(n_classes):
 #        fpr[i], tpr[i], _ = roc_curve(april['clase'][:, i], y_score[:, i])
 #        roc_auc[i] = auc(fpr[i], tpr[i])
-
-    
