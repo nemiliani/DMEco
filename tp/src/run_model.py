@@ -2,6 +2,7 @@ import pandas
 import numpy
 import sys
 import re
+import argparse
 import matplotlib.pyplot as plt
 
 from sklearn import tree
@@ -12,9 +13,6 @@ from sklearn.cross_validation import train_test_split
 
 
 pandas.options.mode.chained_assignment = None
-
-#TODO : cli parematers
-FILE='/home/nemi/workspace/maestria/DMEco/data/abril_2014.txt.nemi'
 
 MOST_MIN = -149849333.41
 NAN_REPLACE = -99999999999999
@@ -39,8 +37,17 @@ def get_leaf_gain(leaf):
     
 if __name__ == '__main__':
 
+    parser = argparse.ArgumentParser(
+            description='decision tree evaluator.')
+    parser.add_argument('-d', '--dot_file', type=str, default='tree.dot', help='output dot file')
+    parser.add_argument('-f', '--data_file', type=str, help='train data file')
+    parser.add_argument('-t', '--train_ratio', type=float, default=0.5, help='training set portion (0.0, 1.0]')
+#    parser.add_argument('-q', '--quiet', action='store_true', help='do not show graph at the end')
+    args = parser.parse_args()
+
     # read the csv files
-    april = pandas.read_csv(FILE, sep='\t', low_memory=False, header=0)
+    print 'reading data ...'
+    april = pandas.read_csv(args.data_file, sep='\t', low_memory=False, header=0)
     # create a df without the class column
     cols = [col for col in april.columns if col != 'clase']
     april_data = april[cols]
@@ -60,8 +67,8 @@ if __name__ == '__main__':
     clf = tree.DecisionTreeClassifier(max_depth=5)
     clf = clf.fit(april_data, april['clase'])
     print 'done!'
-    tree.export_graphviz(clf, out_file='tree.dot')
-    leafs = get_leafs('tree.dot')
+    tree.export_graphviz(clf, out_file=args.dot_file)
+    leafs = get_leafs(args.dot_file)
     leaf_maps = [dict(zip(list(clf.classes_), list(leaf))) for leaf in leafs]
     gains = []
     for leaf in leaf_maps:
