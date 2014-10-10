@@ -125,11 +125,11 @@ if __name__ == '__main__':
     X = array2d(X_test, dtype=clf.DTYPE)
     #print 'predicting nodes ...'    
     predicted_nodes = clf.tree_.apply(X)
-    #print 'predicting classes ...'
-    #predicted_classes = clf.predict(X_test)
+    predicted_proba = clf.predict_proba(X_test)
     # create a dataframe
     pdf = pandas.DataFrame(
                 {'node_id': predicted_nodes, 'pclass': y_test})
+    
     res = []    
     for nid in positive_nodes:
         df = pdf[pdf.node_id == nid]
@@ -145,20 +145,19 @@ if __name__ == '__main__':
     print 'Test total gain : \t%d' % sum(res)
     print 'Norm test total gain : \t%d' % int(sum(res) / args.test_ratio)
 
-#    y = label_binarize(april['clase'], classes=['BAJA+1', 'BAJA+2', 'CONTINUA'])
-#    n_classes = y.shape[1]
-#    
-#    # shuffle and split training and test sets
-#    X_train, X_test, y_train, y_test = train_test_split(april_data, april['clase'], test_size=.5, random_state=0)
+    pdf['bin_class'] = pdf.apply(lambda x : 1 if x.get('pclass') == 'BAJA+2' else 0, axis=1)
+    
+    fpr, tpr, thresholds = roc_curve(list(pdf['bin_class']), predicted_proba[:,1])
+    roc_auc = auc(fpr, tpr)
+    print 'Area under the ROC curve : %f' % roc_auc
 
-#    # Learn to predict each class against the other
-#    clf = OneVsRestClassifier(tree.DecisionTreeClassifier(max_depth=5))
-#    y_score = clf.fit(X_train, y_train).decision_function(X_test)
-
-#    # Compute ROC curve and ROC area for each class
-#    fpr = dict()
-#    tpr = dict()
-#    roc_auc = dict()
-#    for i in range(n_classes):
-#        fpr[i], tpr[i], _ = roc_curve(april['clase'][:, i], y_score[:, i])
-#        roc_auc[i] = auc(fpr[i], tpr[i])
+    plt.clf()
+    plt.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.0])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic')
+    plt.legend(loc="lower right")
+    plt.savefig('roc.png')
