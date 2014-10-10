@@ -22,6 +22,9 @@ def get_leafs(dot_filename):
         leafs = [line.strip() for line in f if line.find('value') != -1]
     res = []
     for l in leafs:
+        p = re.compile('nodeid\s=\s[\d]+')
+        begin, end = p.search(l).span()
+        node_id = int(l[begin:end].split('=')[1].strip())        
         p = re.compile('samples\s=\s[\d]+')
         begin, end = p.search(l).span()
         total = int(l[begin:end].split('=')[1].strip())
@@ -29,7 +32,7 @@ def get_leafs(dot_filename):
         begin, end = p.search(l).span()
         vals = [int(i.strip('.')) for i in l[begin:end].strip('value = []').split()]
         assert(total == sum(vals))
-        res.append(vals)
+        res.append({'node_id': node_id, 'value': vals, 'probs':[]})
     return res
 
 def get_leaf_gain(leaf):
@@ -84,13 +87,17 @@ if __name__ == '__main__':
     print 'done!'
     tree.export_graphviz(clf, out_file=args.dot_file)
     leafs = get_leafs(args.dot_file)
-    leaf_maps = [dict(zip(list(clf.classes_), list(leaf))) for leaf in leafs]
+    # create a list of leafs with the ids and assigned values 
+    leaf_maps = [{ 
+              "value": dict(zip(list(clf.classes_), list(leaf['value']))),
+              "node_id": leaf['node_id']
+               } for leaf in leafs]
     gains = []
     for leaf in leaf_maps:
-        gain = get_leaf_gain(leaf)
-        gains.append(gain)
-    print 'Total gain : %d' % sum([gain for gain in gains if gain > 0])    
-    print 'Max   gain : %d' % max(gains)
+        gain = get_leaf_gain(leaf['value'])
+        gains.append((leaf['node_id'], gain))
+    train_gain = sum([gain[1] for gain in gains if gain[1] > 0])
+    
 
 #    y = label_binarize(april['clase'], classes=['BAJA+1', 'BAJA+2', 'CONTINUA'])
 #    n_classes = y.shape[1]
