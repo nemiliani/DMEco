@@ -33,7 +33,7 @@ def get_leafs(dot_filename):
     return res
 
 def get_leaf_gain(leaf):
-    return (5000 * leaf['BAJA+2']) - (100 * (leaf['BAJA+1'] + leaf['CONTINUA']))
+    return (5000 * leaf['BAJA+2']) - (100 * (leaf['BAJA+1'] + leaf['BAJA+2'] + leaf['CONTINUA']))
     
 if __name__ == '__main__':
 
