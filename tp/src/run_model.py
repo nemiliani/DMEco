@@ -43,6 +43,12 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--data_file', type=str, help='train data file')
     parser.add_argument('-t', '--test_ratio', type=float, default=0.3, help='test set portion')
     parser.add_argument('-s', '--split_seed', type=int, default=0, help='seed for the shuffle function')
+    parser.add_argument('-c', '--criterion', type=str, choices=['gini','entropy'], default='gini', help='split criterion')
+    parser.add_argument('-m', '--max_depth', type=int, default=3, help='max depth for decision tree')
+    parser.add_argument('-i', '--min_samples_split', type=int, default=3, help='min samples for split')
+    parser.add_argument('-l', '--min_samples_leaf', type=int, default=1, help='min samples on a leaf')
+    parser.add_argument('-p', '--splitter', type=str, choices=['best', 'random'], default='best', 
+                                    help='startegy to choose the split at each node')    
     args = parser.parse_args()
 
     # read the csv files
@@ -68,7 +74,12 @@ if __name__ == '__main__':
                 april_data, april['clase'], 
                 test_size=args.test_ratio, 
                 random_state=args.split_seed)
-    clf = tree.DecisionTreeClassifier(max_depth=5)
+    clf = tree.DecisionTreeClassifier(
+            max_depth=args.max_depth,
+            criterion=args.criterion,
+            min_samples_split=args.min_samples_split,
+            min_samples_leaf=args.min_samples_leaf,
+            splitter=args.splitter)
     clf = clf.fit(X_train, y_train)
     print 'done!'
     tree.export_graphviz(clf, out_file=args.dot_file)
