@@ -2,6 +2,7 @@ import pandas
 import numpy
 import sys
 import re
+import json
 import argparse
 import matplotlib.pyplot as plt
 
@@ -10,7 +11,7 @@ from sklearn.metrics import roc_curve, auc
 from sklearn.preprocessing import label_binarize
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.cross_validation import train_test_split
-
+from sklearn.utils import array2d
 
 pandas.options.mode.chained_assignment = None
 
@@ -38,6 +39,20 @@ def get_leafs(dot_filename):
 def get_leaf_gain(leaf):
     return (5000 * leaf['BAJA+2']) - (100 * (leaf['BAJA+1'] + leaf['BAJA+2'] + leaf['CONTINUA']))
     
+def get_gain(baja_1, baja_2, cont):
+    return (5000 * baja_2) - (100 * (baja_1 + baja_2 + cont))
+
+def args_to_json(args):
+    p = {}
+    p['test_ratio'] = args.test_ratio
+    p['split_seed'] = args.split_seed
+    p['criterion'] = args.criterion
+    p['max_depth'] = args.max_depth
+    p['min_samples_split'] = args.min_samples_split
+    p['min_samples_leaf'] = args.min_samples_leaf
+    p['splitter'] = args.splitter
+    return json.dumps(p)
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
@@ -53,9 +68,9 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--splitter', type=str, choices=['best', 'random'], default='best', 
                                     help='startegy to choose the split at each node')    
     args = parser.parse_args()
-
+    print args_to_json(args)
     # read the csv files
-    print 'reading data ...'
+    #print 'reading data ...'
     april = pandas.read_csv(args.data_file, sep='\t', low_memory=False, header=0)
     # create a df without the class column
     cols = [col for col in april.columns if col != 'clase']
@@ -63,7 +78,7 @@ if __name__ == '__main__':
     # transform s/n cols to 0/1 columns    
     # transform NAN in numeric columns to a known numeric value so that
     # the tree won't complain on cast time
-    print 'working on data ...'    
+    #print 'working on data ...'    
     mins = []
     for c in cols: 
         if april_data[c].dtype == 'object':
@@ -72,7 +87,8 @@ if __name__ == '__main__':
             april_data[c] = april_data[c].fillna(NAN_REPLACE)
             mins.append(april_data[c].min())
     assert(NAN_REPLACE == min(mins))
-    print 'training ... '
+    #print 'training ... '
+    # split the data set
     X_train, X_test, y_train, y_test = train_test_split(
                 april_data, april['clase'], 
                 test_size=args.test_ratio, 
@@ -84,9 +100,13 @@ if __name__ == '__main__':
             min_samples_leaf=args.min_samples_leaf,
             splitter=args.splitter)
     clf = clf.fit(X_train, y_train)
-    print 'done!'
+    #print 'done!'
     tree.export_graphviz(clf, out_file=args.dot_file)
     leafs = get_leafs(args.dot_file)
+    # print fot file to stdout
+    with open(args.dot_file, 'r') as f:
+        for line in f:
+            print line
     # create a list of leafs with the ids and assigned values 
     leaf_maps = [{ 
               "value": dict(zip(list(clf.classes_), list(leaf['value']))),
@@ -98,6 +118,32 @@ if __name__ == '__main__':
         gains.append((leaf['node_id'], gain))
     train_gain = sum([gain[1] for gain in gains if gain[1] > 0])
     
+    # save the nodes id with positive gain
+    positive_nodes = [gain[0] for gain in gains if gain[1] > 0]
+    # some black magic casting in order to pass the 
+    # data set into the underlying implementation    
+    X = array2d(X_test, dtype=clf.DTYPE)
+    #print 'predicting nodes ...'    
+    predicted_nodes = clf.tree_.apply(X)
+    #print 'predicting classes ...'
+    #predicted_classes = clf.predict(X_test)
+    # create a dataframe
+    pdf = pandas.DataFrame(
+                {'node_id': predicted_nodes, 'pclass': y_test})
+    res = []    
+    for nid in positive_nodes:
+        df = pdf[pdf.node_id == nid]
+        baja_1 = len(df[df.pclass == 'BAJA+1'])
+        baja_2 = len(df[df.pclass == 'BAJA+2'])
+        cont   = len(df[df.pclass == 'CONTINUA'])
+        g = get_gain(baja_1, baja_2, cont)        
+        res.append(g) 
+        print 'Node = %.3d -> B1 = %.3d , B2 = %.3d , C = %.5d , gain = %.7d' % (
+                    nid, baja_1, baja_2, cont, g)
+
+    print 'Train total gain : \t%d' % train_gain    
+    print 'Test total gain : \t%d' % sum(res)
+    print 'Norm test total gain : \t%d' % int(sum(res) / args.test_ratio)
 
 #    y = label_binarize(april['clase'], classes=['BAJA+1', 'BAJA+2', 'CONTINUA'])
 #    n_classes = y.shape[1]
