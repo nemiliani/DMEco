@@ -2,3 +2,7 @@ pandas==0.14.1
 numpy==1.9.0
 ipython==2.2.0
 matplotlib==1.4.0
+argparse==1.2.1
+scikit-learn==0.15.2
+scipy==0.14.0
+
