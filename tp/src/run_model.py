@@ -66,7 +66,8 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--min_samples_split', type=int, default=3, help='min samples for split')
     parser.add_argument('-l', '--min_samples_leaf', type=int, default=1, help='min samples on a leaf')
     parser.add_argument('-p', '--splitter', type=str, choices=['best', 'random'], default='best', 
-                                    help='startegy to choose the split at each node')    
+                                    help='startegy to choose the split at each node')
+    parser.add_argument('-r', '--print_probs', type=str, default='b2.csv', help='print prob b2 to csv file')
     args = parser.parse_args()
     print args_to_json(args)
     # read the csv files
@@ -161,3 +162,8 @@ if __name__ == '__main__':
     plt.title('Receiver operating characteristic')
     plt.legend(loc="lower right")
     plt.savefig('roc.png')
+
+    if args.print_probs :
+        print 'calculate B2 probs for dataset and dump to %s' % args.print_probs
+        predicted_proba = clf.predict_proba(april_data)
+        numpy.savetxt(args.print_probs, predicted_proba[:,1])
