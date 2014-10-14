@@ -51,7 +51,7 @@ def args_to_json(args):
     p['min_samples_split'] = args.min_samples_split
     p['min_samples_leaf'] = args.min_samples_leaf
     p['splitter'] = args.splitter
-    p['add_probs'] = args.add_probs
+    p['add_columns'] = args.add_columns
     return json.dumps(p)
 
 if __name__ == '__main__':
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--splitter', type=str, choices=['best', 'random'], default='best', 
                                     help='startegy to choose the split at each node')
     parser.add_argument('-r', '--print_probs', type=str, help='print prob b2 to csv file')
-    parser.add_argument('-a', '--add_probs', type=str, help='adds probs from csv file')
+    parser.add_argument('-a', '--add_columns', type=str, nargs='+', help='adds colls from csv file')
     args = parser.parse_args()
     print args_to_json(args)
     # read the csv files
@@ -90,8 +90,11 @@ if __name__ == '__main__':
         elif april_data[c].dtype == 'float64':
             april_data[c] = april_data[c].fillna(NAN_REPLACE)
             mins.append(april_data[c].min())
-    if args.add_probs:
-        april_data['prob_b2'] = numpy.genfromtxt(args.add_probs, delimiter=',')
+    # add columns to dataset
+    if args.add_columns:
+        for col in args.add_columns:
+            print 'adding column form file %s' % col
+            april_data[col.split('.')[0]] = numpy.genfromtxt(col, delimiter=',')
     assert(NAN_REPLACE == min(mins))
     #print 'training ... '
     # split the data set
