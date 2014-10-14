@@ -51,6 +51,7 @@ def args_to_json(args):
     p['min_samples_split'] = args.min_samples_split
     p['min_samples_leaf'] = args.min_samples_leaf
     p['splitter'] = args.splitter
+    p['add_probs'] = args.add_probs
     return json.dumps(p)
 
 if __name__ == '__main__':
@@ -61,13 +62,15 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--data_file', type=str, help='train data file')
     parser.add_argument('-t', '--test_ratio', type=float, default=0.3, help='test set portion')
     parser.add_argument('-s', '--split_seed', type=int, default=0, help='seed for the shuffle function')
-    parser.add_argument('-c', '--criterion', type=str, choices=['gini','entropy'], default='gini', help='split criterion')
+    parser.add_argument('-c', '--criterion', type=str, choices=['gini','entropy'], default='gini',
+                                help='split criterion')
     parser.add_argument('-m', '--max_depth', type=int, default=3, help='max depth for decision tree')
     parser.add_argument('-i', '--min_samples_split', type=int, default=3, help='min samples for split')
     parser.add_argument('-l', '--min_samples_leaf', type=int, default=1, help='min samples on a leaf')
     parser.add_argument('-p', '--splitter', type=str, choices=['best', 'random'], default='best', 
                                     help='startegy to choose the split at each node')
-    parser.add_argument('-r', '--print_probs', type=str, default='b2.csv', help='print prob b2 to csv file')
+    parser.add_argument('-r', '--print_probs', type=str, help='print prob b2 to csv file')
+    parser.add_argument('-a', '--add_probs', type=str, help='adds probs from csv file')
     args = parser.parse_args()
     print args_to_json(args)
     # read the csv files
@@ -87,6 +90,8 @@ if __name__ == '__main__':
         elif april_data[c].dtype == 'float64':
             april_data[c] = april_data[c].fillna(NAN_REPLACE)
             mins.append(april_data[c].min())
+    if args.add_probs:
+        april_data['prob_b2'] = numpy.genfromtxt(args.add_probs, delimiter=',')
     assert(NAN_REPLACE == min(mins))
     #print 'training ... '
     # split the data set
@@ -104,10 +109,6 @@ if __name__ == '__main__':
     #print 'done!'
     tree.export_graphviz(clf, out_file=args.dot_file)
     leafs = get_leafs(args.dot_file)
-    # print fot file to stdout
-    with open(args.dot_file, 'r') as f:
-        for line in f:
-            print line
     # create a list of leafs with the ids and assigned values 
     leaf_maps = [{ 
               "value": dict(zip(list(clf.classes_), list(leaf['value']))),
@@ -139,8 +140,8 @@ if __name__ == '__main__':
         cont   = len(df[df.pclass == 'CONTINUA'])
         g = get_gain(baja_1, baja_2, cont)        
         res.append(g) 
-        print 'Node = %.3d -> B1 = %.3d , B2 = %.3d , C = %.5d , gain = %.7d' % (
-                    nid, baja_1, baja_2, cont, g)
+#        print 'Node = %.3d -> B1 = %.3d , B2 = %.3d , C = %.5d , gain = %.7d' % (
+#                    nid, baja_1, baja_2, cont, g)
 
     print 'Train total gain : \t%d' % train_gain    
     print 'Test total gain : \t%d' % sum(res)
@@ -162,6 +163,7 @@ if __name__ == '__main__':
     plt.title('Receiver operating characteristic')
     plt.legend(loc="lower right")
     plt.savefig('roc.png')
+    plt.close()
 
     if args.print_probs :
         print 'calculate B2 probs for dataset and dump to %s' % args.print_probs
