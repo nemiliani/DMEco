@@ -5,6 +5,7 @@ import re
 import json
 import argparse
 import matplotlib.pyplot as plt
+import pickle
 
 from sklearn import tree
 from sklearn.metrics import roc_curve, auc
@@ -52,6 +53,8 @@ def args_to_json(args):
     p['min_samples_leaf'] = args.min_samples_leaf
     p['splitter'] = args.splitter
     p['add_columns'] = args.add_columns
+    p['dump_model'] = args.dump_model
+    p['use_model'] = args.use_model
     return json.dumps(p)
 
 if __name__ == '__main__':
@@ -71,6 +74,9 @@ if __name__ == '__main__':
                                     help='startegy to choose the split at each node')
     parser.add_argument('-r', '--print_probs', type=str, help='print prob b2 to csv file')
     parser.add_argument('-a', '--add_columns', type=str, nargs='+', help='adds colls from csv file')
+    parser.add_argument('-u', '--dump_model', type=str, help='dump model to pickle file')
+    parser.add_argument('-e', '--use_model', type=str, help='use pickled model instead of training')
+
     args = parser.parse_args()
     print args_to_json(args)
     # read the csv files
@@ -102,12 +108,18 @@ if __name__ == '__main__':
                 april_data, april['clase'], 
                 test_size=args.test_ratio, 
                 random_state=args.split_seed)
-    clf = tree.DecisionTreeClassifier(
-            max_depth=args.max_depth,
-            criterion=args.criterion,
-            min_samples_split=args.min_samples_split,
-            min_samples_leaf=args.min_samples_leaf,
-            splitter=args.splitter)
+    clf = None
+    # check if we need to train the model or if we 
+    # should load one
+    if not args.use_model:
+        clf = tree.DecisionTreeClassifier(
+                max_depth=args.max_depth,
+                criterion=args.criterion,
+                min_samples_split=args.min_samples_split,
+                min_samples_leaf=args.min_samples_leaf,
+                splitter=args.splitter)
+    else :
+        clf = pickle.load(open(args.use_model,'rb'))
     clf = clf.fit(X_train, y_train)
     #print 'done!'
     tree.export_graphviz(clf, out_file=args.dot_file)
@@ -172,3 +184,6 @@ if __name__ == '__main__':
         print 'calculate B2 probs for dataset and dump to %s' % args.print_probs
         predicted_proba = clf.predict_proba(april_data)
         numpy.savetxt(args.print_probs, predicted_proba[:,1])
+    if args.dump_model :
+        print 'dumping model to %s' % args.dump_model
+        pickle.dump(clf, open(args.dump_model, 'wb'))
