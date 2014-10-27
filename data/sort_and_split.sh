@@ -1,0 +1,29 @@
+#!/bin/bash
+#sort -t, -k2,1 -rn --batch-size=100000 --parallel=6 producto_premium_2014.txt.csv > producto_premium_2014.txt.csv.sorted.date.user
+grep -i ",201406," producto_premium_2014.txt.csv.sorted.date.user > months/201406.txt
+grep -i ",201405," producto_premium_2014.txt.csv.sorted.date.user > months/201405.txt
+grep -i ",201404," producto_premium_2014.txt.csv.sorted.date.user > months/201404.txt
+grep -i ",201403," producto_premium_2014.txt.csv.sorted.date.user > months/201403.txt
+grep -i ",201402," producto_premium_2014.txt.csv.sorted.date.user > months/201402.txt
+grep -i ",201401," producto_premium_2014.txt.csv.sorted.date.user > months/201401.txt
+grep -i ",201312," producto_premium_2014.txt.csv.sorted.date.user > months/201312.txt
+grep -i ",201311," producto_premium_2014.txt.csv.sorted.date.user > months/201311.txt
+grep -i ",201310," producto_premium_2014.txt.csv.sorted.date.user > months/201310.txt
+grep -i ",201309," producto_premium_2014.txt.csv.sorted.date.user > months/201309.txt
+grep -i ",201308," producto_premium_2014.txt.csv.sorted.date.user > months/201308.txt
+grep -i ",201307," producto_premium_2014.txt.csv.sorted.date.user > months/201307.txt
+grep -i ",201306," producto_premium_2014.txt.csv.sorted.date.user > months/201306.txt
+grep -i ",201305," producto_premium_2014.txt.csv.sorted.date.user > months/201305.txt
+grep -i ",201304," producto_premium_2014.txt.csv.sorted.date.user > months/201304.txt
+grep -i ",201303," producto_premium_2014.txt.csv.sorted.date.user > months/201303.txt
+grep -i ",201302," producto_premium_2014.txt.csv.sorted.date.user > months/201302.txt
+grep -i ",201301," producto_premium_2014.txt.csv.sorted.date.user > months/201301.txt
+grep -i ",201212," producto_premium_2014.txt.csv.sorted.date.user > months/201212.txt
+grep -i ",201211," producto_premium_2014.txt.csv.sorted.date.user > months/201211.txt
+grep -i ",201210," producto_premium_2014.txt.csv.sorted.date.user > months/201210.txt
+grep -i ",201209," producto_premium_2014.txt.csv.sorted.date.user > months/201209.txt
+grep -i ",201208," producto_premium_2014.txt.csv.sorted.date.user > months/201208.txt
+grep -i ",201207," producto_premium_2014.txt.csv.sorted.date.user > months/201207.txt
+grep -i ",201206," producto_premium_2014.txt.csv.sorted.date.user > months/201206.txt
+grep -i ",201205," producto_premium_2014.txt.csv.sorted.date.user > months/201205.txt
+grep -i ",201204," producto_premium_2014.txt.csv.sorted.date.user > months/201204.txt
