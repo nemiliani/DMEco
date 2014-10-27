@@ -73,9 +73,11 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--splitter', type=str, choices=['best', 'random'], default='best', 
                                     help='startegy to choose the split at each node')
     parser.add_argument('-r', '--print_probs', type=str, help='print prob b2 to csv file')
+    parser.add_argument('-n', '--print_success', type=str, help='print success to csv file')    
     parser.add_argument('-a', '--add_columns', type=str, nargs='+', help='adds colls from csv file')
     parser.add_argument('-u', '--dump_model', type=str, help='dump model to pickle file')
     parser.add_argument('-e', '--use_model', type=str, help='use pickled model instead of training')
+    
 
     args = parser.parse_args()
     print args_to_json(args)
@@ -180,10 +182,30 @@ if __name__ == '__main__':
     plt.savefig('roc.png')
     plt.close()
 
-    if args.print_probs :
-        print 'calculate B2 probs for dataset and dump to %s' % args.print_probs
-        predicted_proba = clf.predict_proba(april_data)
+    predicted_proba = clf.predict_proba(april_data)
+    if args.print_probs:
+        print 'calculate B2 probs for dataset and dump to %s' % args.print_probs        
         numpy.savetxt(args.print_probs, predicted_proba[:,1])
+
+    if args.print_success:
+        print 'calculate success column for dataset and dump to %s' % args.print_success
+        def success(x):
+            if x.get('pb2') > 0.02 and x.get('clase') == 'BAJA+2':
+                # good prediction
+                return 1
+            elif x.get('pb2') > 0.02 and x.get('clase') != 'BAJA+2':
+                # bad prediction
+                return 0
+            elif x.get('pb2') < 0.02 and x.get('clase') != 'BAJA+2':
+                # good prediction
+                return 1
+            elif x.get('pb2') < 0.02 and x.get('clase') == 'BAJA+2':
+                # bad prediction
+                return 0
+        april['pb2'] = predicted_proba[:,1]
+        april['success'] = april.apply(success, axis=1)
+        numpy.savetxt(args.print_success, april.as_matrix(columns=['success',]))
+
     if args.dump_model :
         print 'dumping model to %s' % args.dump_model
         pickle.dump(clf, open(args.dump_model, 'wb'))
