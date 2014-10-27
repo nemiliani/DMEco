@@ -14,3 +14,7 @@ data/producto_premium_2014.zip
 data/res_arbol_default.spv
 papers/
 tp/src/settings.py
+historic/
+months/
+user/
+user.bak/
