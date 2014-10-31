@@ -2,6 +2,7 @@ import pandas
 import argparse
 import os
 import sys
+import numpy as np
 
 USER_FIELD = 'numero_de_cliente'
 DATE_FIELD = 'foto_mes'
@@ -211,7 +212,7 @@ def init_files(year_month, output_dir):
         FILES[name] = open(
             os.path.join(output_dir, '%s_%s' % (year_month, name)), 'w')
         prefix = '%s_%s' % (year_month, name)
-        FILES[name].write('%s_min,%s_max,%s_mean\n' % (prefix, prefix, prefix))
+        FILES[name].write('%s_min,%s_max,%s_mean,%s_hist\n' % (prefix, prefix, prefix, prefix))
 
 def close_files():
     for k,v in FILES.iteritems():
@@ -253,8 +254,15 @@ if __name__ == '__main__':
             minv = udf[name].min()
             maxv = udf[name].max()
             mean = udf[name].mean()
+            vals = list(udf[name])
+            if len(vals) > 1:
+                first_half = vals[:len(vals)/2]
+                second_half = vals[len(vals)/2:]
+                avg = np.mean(second_half) - np.mean(first_half)
+            else:
+                avg = 0
             # get the file
-            FILES[name].write('%.2f,%.2f,%.2f\n' % (minv,maxv,mean))
+            FILES[name].write('%.2f,%.2f,%.2f,%.2f\n' % (minv,maxv,mean,avg))
     close_files()
 
 
