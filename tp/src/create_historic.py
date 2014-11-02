@@ -6,6 +6,7 @@ import numpy as np
 
 USER_FIELD = 'numero_de_cliente'
 DATE_FIELD = 'foto_mes'
+NAN_REPLACE = -99999999999999
 
 MONTHS = [
     '201406',
@@ -245,16 +246,15 @@ if __name__ == '__main__':
                 header=0)
         # keep only the valid months of the user
         udf = udf[udf.loc[:,'foto_mes'].isin(mlist)]
-        udf = udf.replace(to_replace='NaN', value=0)
-        udf = udf.replace(to_replace='Nan', value=0)
-        udf = udf.replace(to_replace='nan', value=0)
         udf = udf.replace(to_replace='S', value=1)
         udf = udf.replace(to_replace='N', value=0)
         for name in HEADER:
-            minv = udf[name].min()
-            maxv = udf[name].max()
-            mean = udf[name].mean()
-            vals = list(udf[name])
+            vals = [e for e in list(udf[name]) if e != 'NaN' and e != 'Nan' and e != 'nan']
+            if not len(vals):
+                vals = [NAN_REPLACE, ]
+            minv = np.min(vals)
+            maxv = np.max(vals)
+            mean = np.mean(vals)
             if len(vals) > 1:
                 first_half = vals[:len(vals)/2]
                 second_half = vals[len(vals)/2:]
