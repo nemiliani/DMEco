@@ -11,18 +11,18 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--historic_data_dir', type=str, help='historic data directory')
     args = parser.parse_args()
 
-    file_names = [f for f in listdir(args.historic_data_dir) if isfile(f)]
+    file_names = [f for f in listdir(args.historic_data_dir) if isfile(join(args.historic_data_dir,f))]
     open_files = []    
     for f in file_names:
-        open_files.append(open(f, 'r'))
+        open_files.append(open(join(args.historic_data_dir,f), 'r'))
 
     with open(args.month_file, 'r') as f:
         for line in f:
             parts = []
             for hf in open_files:
-                parts.append(hf.readline())
+                parts.append(hf.readline().strip())
             parts = ','.join(parts)
-            line = '%s,%s' % (line, parts)
+            line = '%s,%s' % (line.strip(), parts)
             print line
 
     for hf in open_files:
