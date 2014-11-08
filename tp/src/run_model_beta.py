@@ -4,7 +4,6 @@ import sys
 import re
 import json
 import argparse
-import matplotlib.pyplot as plt
 import pickle
 
 from sklearn import tree
@@ -14,6 +13,7 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.cross_validation import train_test_split
 from sklearn.utils import array2d
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.utils import shuffle
 
 pandas.options.mode.chained_assignment = None
 
@@ -40,7 +40,6 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
             description='random forest tree evaluator.')
-    parser.add_argument('-d', '--dot_file', type=str, default='tree.dot', help='output dot file')
     parser.add_argument('-f', '--data_file', type=str, help='train data file')
     parser.add_argument('-t', '--test_ratio', type=float, default=0.3, help='test set portion')
     parser.add_argument('-s', '--split_seed', type=int, default=0, help='seed for the shuffle function')
@@ -52,6 +51,7 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--print_probs', type=str, help='print prob b2 to csv file')
     parser.add_argument('-n', '--print_success', type=str, help='print success to csv file')    
     parser.add_argument('-a', '--add_columns', type=str, nargs='+', help='adds colls from csv file')
+    parser.add_argument('-v', '--add_csvs', type=str, nargs='+', help='adds csv files')
     parser.add_argument('-u', '--dump_model', type=str, help='dump model to pickle file')
     parser.add_argument('-e', '--use_model', type=str, help='use pickled model instead of training')
     parser.add_argument('-x', '--estimators', type=int, help='number of estimators')
@@ -59,10 +59,14 @@ if __name__ == '__main__':
     
 
     args = parser.parse_args()
-    print args_to_json(args)
     # read the csv files
-    #print 'reading data ...'
-    april = pandas.read_csv(args.data_file, sep='\t', low_memory=False, header=0)
+    april = pandas.read_csv(args.data_file, sep=',', low_memory=True, header=0)
+    if args.add_csvs:
+        for csv in args.add_csvs:
+            print 'appending %s' % csv
+            df_hist = pandas.read_csv(csv, sep=',', low_memory=False, header=0)
+            april = april.append(df_hist)
+    april = april[april.loc[:,'participa'] == 'S']
     # create a df without the class column
     cols = [col for col in april.columns if col != 'clase']
     april_data = april[cols]
@@ -82,11 +86,13 @@ if __name__ == '__main__':
         for col in args.add_columns:
             print 'adding column form file %s' % col
             april_data[col.split('.')[0]] = numpy.genfromtxt(col, delimiter=',')
+            
     assert(NAN_REPLACE == min(mins))
     #print 'training ... '
     # split the data set
+    X1 , y1 = shuffle(april_data, april['clase'], random_state=args.split_seed)
     X_train, X_test, y_train, y_test = train_test_split(
-                april_data, april['clase'], 
+                X1, y1, 
                 test_size=args.test_ratio, 
                 random_state=args.split_seed)
     clf = None
@@ -126,16 +132,26 @@ if __name__ == '__main__':
         return pb2_count, len(df_tmp) - pb2_count
 
     baja_2_count, other_count = get_class_counters(df_train)
-    print 'Train total gain : \t%d' % get_gain(baja_2_count, other_count)
+    #print 'Train total gain : \t%d' % get_gain(baja_2_count, other_count)
     baja_2_count, other_count = get_class_counters(df_test)
     res = get_gain(baja_2_count, other_count)
-    print 'Test total gain : \t%d' % res
-    print 'Norm test total gain : \t%d' % (int(res) / args.test_ratio)
-
+    #print 'Test total gain : \t%d' % res
+    #print 'Norm test total gain : \t%d' % (int(res) / args.test_ratio)
+    print '%s,%.2f,%d,%s,%d,%d,%d,%d,%d,%d' % (
+        args.data_file,
+        args.test_ratio,
+        args.split_seed,
+        args.criterion,
+        args.max_depth,
+        args.min_samples_split,
+        args.min_samples_leaf,
+        args.estimators,
+        res,
+        (int(res) / args.test_ratio))
     df_test['binclass'] = df_test.apply(lambda x : 1 if x.get('the_class') == 'BAJA+2' else 0, axis=1)
     fpr, tpr, thresholds = roc_curve(list(df_test['binclass']), predicted_proba_test[:,1])
     roc_auc = auc(fpr, tpr)
-    print 'Area under the ROC curve : %f' % roc_auc
+    #print 'Area under the ROC curve : %f' % roc_auc
 
     predicted_proba = clf.predict_proba(april_data)
     if args.print_probs:
