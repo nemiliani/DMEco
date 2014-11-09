@@ -61,33 +61,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
     # read the csv files
     april = pandas.read_csv(args.data_file, sep=',', low_memory=True, header=0)
-    if args.add_csvs:
-        for csv in args.add_csvs:
-            print 'appending %s' % csv
-            df_hist = pandas.read_csv(csv, sep=',', low_memory=False, header=0)
-            april = april.append(df_hist)
-    april = april[april.loc[:,'participa'] == 'S']
     # create a df without the class column
     cols = [col for col in april.columns if col != 'clase']
     april_data = april[cols]
-    # transform s/n cols to 0/1 columns    
-    # transform NAN in numeric columns to a known numeric value so that
-    # the tree won't complain on cast time
-    #print 'working on data ...'    
-    mins = []
-    for c in cols: 
-        if april_data[c].dtype == 'object':
-            april_data[c] = april_data[c].apply(lambda x : 0 if x.upper() == 'N' else 1)
-        elif april_data[c].dtype == 'float64':
-            april_data[c] = april_data[c].fillna(NAN_REPLACE)
-            mins.append(april_data[c].min())
     # add columns to dataset
     if args.add_columns:
         for col in args.add_columns:
             print 'adding column form file %s' % col
             april_data[col.split('.')[0]] = numpy.genfromtxt(col, delimiter=',')
-            
-    assert(NAN_REPLACE == min(mins))
     #print 'training ... '
     # split the data set
     X1 , y1 = shuffle(april_data, april['clase'], random_state=args.split_seed)
