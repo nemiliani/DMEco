@@ -59,6 +59,7 @@ if __name__ == '__main__':
 
     random.seed(args.split_seed) 
 
+    final_values = []
     for comb in itertools.combinations(args.fold_files, len(args.fold_files) - 1):        
         # read the csv files
         dfs = []
@@ -120,6 +121,10 @@ if __name__ == '__main__':
         def get_class_counters(df_probs):
             df_tmp = df_probs[df_probs.loc[:,'pb2'] > 0.02]
             pb2_count = len(df_tmp[df_tmp.the_class == 'BAJA+2'])
+#            print '---------------------'
+#            print 'total regs pb2 > 0.02: %d' % len(df_tmp)
+#            print 'pb2 count : %d' % pb2_count
+#            print 'other count : %d' % (len(df_tmp) - pb2_count)
             return pb2_count, len(df_tmp) - pb2_count
 
         baja_2_count, other_count = get_class_counters(df_train)
@@ -128,14 +133,13 @@ if __name__ == '__main__':
         res = get_gain(baja_2_count, other_count)
         #print 'Test total gain : \t%d' % res
         #print 'Norm test total gain : \t%d' % (int(res) / args.test_ratio)
-        print '%s,%s,%d,%s,%d,%d,%d,%d,%d,%d' % (
-            str(comb),
-            test_file,
+        final_values.append(res / (1 / float(len(args.fold_files))))
+    print '%s,%d,%s,%d,%d,%d,%d,%d' % (
+            str(args.fold_files),
             args.split_seed,
             args.criterion,
             args.max_depth,
             args.min_samples_split,
             args.min_samples_leaf,
             args.estimators,
-            res,
-            res / (1 / float(len(args.fold_files))))
+            int(numpy.mean(final_values)))
