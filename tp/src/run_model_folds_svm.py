@@ -81,7 +81,8 @@ if __name__ == '__main__':
                 C=args.penalty, 
                 class_weight={'BAJA+2': 5},
                 random_state=args.split_seed,
-                cache_size=args.cache_size)
+                cache_size=args.cache_size,
+                probability=True)
         else :
             clf = pickle.load(open(args.use_model,'rb'))
         clf = clf.fit(X_train, y_train)
