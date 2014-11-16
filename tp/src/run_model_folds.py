@@ -55,11 +55,13 @@ if __name__ == '__main__':
     parser.add_argument('-e', '--use_model', type=str, help='use pickled model instead of training')
     parser.add_argument('-x', '--estimators', type=int, help='number of estimators')
     parser.add_argument('-j', '--jobs', type=int, help='number of jobs')
+    parser.add_argument('--print_features', action='store_true', help='print feature importances')
     args = parser.parse_args()
 
     random.seed(args.split_seed) 
 
     final_values = []
+    catch = []
     for comb in itertools.combinations(args.fold_files, len(args.fold_files) - 1):        
         # read the csv files
         dfs = []
@@ -120,6 +122,7 @@ if __name__ == '__main__':
 
         def get_class_counters(df_probs):
             df_tmp = df_probs[df_probs.loc[:,'pb2'] > 0.02]
+            catch.append(len(df_tmp))
             pb2_count = len(df_tmp[df_tmp.the_class == 'BAJA+2'])
 #            print '---------------------'
 #            print 'total regs pb2 > 0.02: %d' % len(df_tmp)
@@ -134,7 +137,10 @@ if __name__ == '__main__':
         #print 'Test total gain : \t%d' % res
         #print 'Norm test total gain : \t%d' % (int(res) / args.test_ratio)
         final_values.append(res / (1 / float(len(args.fold_files))))
-    print '%s,%d,%s,%d,%d,%d,%d,%d' % (
+#        for pair in zip(cols, clf.feature_importances_):
+#            print '%s,%.5f' % (pair[0], pair[1])
+#        print '------------------'
+    print '%s,%d,%s,%d,%d,%d,%d,%d,%d' % (
             str(args.fold_files),
             args.split_seed,
             args.criterion,
@@ -142,4 +148,5 @@ if __name__ == '__main__':
             args.min_samples_split,
             args.min_samples_leaf,
             args.estimators,
-            int(numpy.mean(final_values)))
+            int(numpy.mean(final_values)),
+            int(numpy.mean(catch)))
