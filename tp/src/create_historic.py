@@ -208,6 +208,11 @@ HEADER = [
 
 FILES = {}
 
+TAG_OSCILATE = 99
+TAG_INCREASE = 1
+TAG_STABLE   = 0
+TAG_DECREASE = -1
+
 def init_files(year_month, output_dir):
     for name in HEADER:
         FILES[name] = open(
@@ -218,6 +223,22 @@ def init_files(year_month, output_dir):
 def close_files():
     for k,v in FILES.iteritems():
         v.close()
+
+def get_tendency_tag(older, newer):
+    if newer > older:
+        # going up
+        if ((newer / float(older)) - 1) > 0.1:
+            return TAG_INCREASE
+        else :
+            return TAG_STABLE
+    elif newer == older:
+        return TAG_STABLE
+    else :
+        if ((older / float(newer)) - 1) > 0.1:
+            return TAG_DECREASE
+        else :
+            return TAG_STABLE
+         
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -259,10 +280,15 @@ if __name__ == '__main__':
                 first_half = vals[:len(vals)/2]
                 second_half = vals[len(vals)/2:]
                 avg = np.mean(second_half) - np.mean(first_half)
+                tag = get_tendency_tag(np.mean(second_half), np.mean(first_half))
+            elif len(vals) == 1:
+                avg = vals[0]
+                tag = TAG_STABLE
             else:
                 avg = 0
+                tag = TAG_STABLE
             # get the file
-            FILES[name].write('%.2f,%.2f,%.2f,%.2f\n' % (minv,maxv,mean,avg))
+            FILES[name].write('%.2f,%.2f,%.2f,%.2f,%d\n' % (minv,maxv,mean,avg,tag))
     close_files()
 
 
