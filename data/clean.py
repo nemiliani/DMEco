@@ -14,6 +14,7 @@ if __name__ == '__main__':
     df = pandas.read_csv(args.file, header=0)
     # keep participa = 1
     df = df[df.loc[:,'participa'] == 'S']
+    df = df[df.numero_de_cliente != 2048]
 
     mins = []
     for c in df.columns: 
