@@ -17,6 +17,7 @@ from sklearn.utils import array2d
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils import shuffle
 from sklearn import linear_model
+from sklearn.preprocessing import scale
 
 pandas.options.mode.chained_assignment = None
 
@@ -63,9 +64,11 @@ if __name__ == '__main__':
         r = random.randint(1, 10000)
         X_train , y_train = shuffle(
             april_data, april['clase'], random_state=r)
+        X_train = scale(X_train)
         r = random.randint(1, 10000)
         X_test , y_test = shuffle(
             april_test_data, april_test['clase'], random_state=r)
+        X_test = scale(X_test)
         clf = None
         # check if we need to train the model or if we 
         # should load one
