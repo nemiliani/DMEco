@@ -1,7 +1,18 @@
 #!/bin/bash
 
+echo removing
+python remove.py -f months/201404.txt -o data_historic/data_historic.csv.removed -c \
+    Master_Fvencimiento \
+    Master_Finiciomora \
+    Master_fultimo_cierre \
+    Master_fechaalta \
+    Visa_Fvencimiento \
+    Visa_Finiciomora \
+    Visa_fultimo_cierre \
+    Visa_fechaalta 
+
 echo 'joining historic'
-python join_select.py -m months/201404.txt -l \
+python join_select.py -m data_historic/data_historic.csv.removed -l \
     historic.bak/201404/201404_cautoservicio_transacciones  \
     historic.bak/201404/201404_ccajeros_ajenos_transacciones \
     historic.bak/201404/201404_ccajeros_propios_descuentos \
@@ -35,10 +46,6 @@ python join_select.py -m months/201404.txt -l \
     historic.bak/201404/201404_marketing_activo_ultimos90dias \
     historic.bak/201404/201404_marketing_coss_selling \
     historic.bak/201404/201404_Master_cuenta_estado \
-    historic.bak/201404/201404_Master_fechaalta \
-    historic.bak/201404/201404_Master_Finiciomora \
-    historic.bak/201404/201404_Master_fultimo_cierre \
-    historic.bak/201404/201404_Master_Fvencimiento \
     historic.bak/201404/201404_Master_madelantodolares \
     historic.bak/201404/201404_Master_madelantopesos \
     historic.bak/201404/201404_Master_marca_atraso \
@@ -147,10 +154,6 @@ python join_select.py -m months/201404.txt -l \
     historic.bak/201404/201404_ttarjeta_visa_debitos_automaticos \
     historic.bak/201404/201404_ttitulos \
     historic.bak/201404/201404_Visa_cuenta_estado \
-    historic.bak/201404/201404_Visa_fechaalta \
-    historic.bak/201404/201404_Visa_Finiciomora \
-    historic.bak/201404/201404_Visa_fultimo_cierre \
-    historic.bak/201404/201404_Visa_Fvencimiento \
     historic.bak/201404/201404_Visa_madelantodolares \
     historic.bak/201404/201404_Visa_madelantopesos \
     historic.bak/201404/201404_Visa_marca_atraso \
@@ -168,7 +171,7 @@ python join_select.py -m months/201404.txt -l \
     historic.bak/201404/201404_Visa_msaldototal \
     historic.bak/201404/201404_Visa_tadelantosefectivo \
     historic.bak/201404/201404_Visa_tconsumos \
- -c 0 1 2 3 > data_historic/data_historic.csv
+ -c 0 1 2 3 4 > data_historic/data_historic.csv
 
 
 echo 'cleaning'

@@ -16,6 +16,10 @@ python remove.py -f months/201404.txt -o data_no_master/data_no_master.csv.remov
     Master_mconsumototal \
     Master_mpagado \
     Master_mpagominimo \
+    Visa_Fvencimiento \
+    Visa_Finiciomora \
+    Visa_fultimo_cierre \
+    Visa_fechaalta 
     
 
 echo 'cleaning'

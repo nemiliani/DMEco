@@ -125,10 +125,6 @@ python join_select.py -m months/201404.txt -l \
     historic.bak/201404/201404_ttarjeta_visa_debitos_automaticos \
     historic.bak/201404/201404_ttitulos \
     historic.bak/201404/201404_Visa_cuenta_estado \
-    historic.bak/201404/201404_Visa_fechaalta \
-    historic.bak/201404/201404_Visa_Finiciomora \
-    historic.bak/201404/201404_Visa_fultimo_cierre \
-    historic.bak/201404/201404_Visa_Fvencimiento \
     historic.bak/201404/201404_Visa_madelantodolares \
     historic.bak/201404/201404_Visa_madelantopesos \
     historic.bak/201404/201404_Visa_marca_atraso \
@@ -146,7 +142,7 @@ python join_select.py -m months/201404.txt -l \
     historic.bak/201404/201404_Visa_msaldototal \
     historic.bak/201404/201404_Visa_tadelantosefectivo \
     historic.bak/201404/201404_Visa_tconsumos \
- -c 0 1 2 3 > data_no_master_historic/data_no_master_historic.csv
+ -c 0 1 2 3 4 > data_no_master_historic/data_no_master_historic.csv
 
 echo 'removing'
 python remove.py -f data_no_master_historic/data_no_master_historic.csv -o data_no_master_historic/data_no_master_historic.csv.removed -c \
@@ -164,6 +160,14 @@ python remove.py -f data_no_master_historic/data_no_master_historic.csv -o data_
     Master_mconsumototal \
     Master_mpagado \
     Master_mpagominimo \
+    Master_Fvencimiento \
+    Master_Finiciomora \
+    Master_fultimo_cierre \
+    Master_fechaalta \
+    Visa_Fvencimiento \
+    Visa_Finiciomora \
+    Visa_fultimo_cierre \
+    Visa_fechaalta 
 
 echo 'cleaning'
 python clean.py -f data_no_master_historic/data_no_master_historic.csv.removed -o data_no_master_historic/data_no_master_historic.csv.removed.clean
