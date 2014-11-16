@@ -1,5 +1,6 @@
 import pandas
 import argparse
+import numpy
 from os.path import join
 
 if __name__ == '__main__':
@@ -14,6 +15,10 @@ if __name__ == '__main__':
     df_cont = df[df.loc[:, 'clase'] == 'CONTINUA']
     df_b1   = df[df.loc[:, 'clase'] == 'BAJA+1']
     df_b2   = df[df.loc[:, 'clase'] == 'BAJA+2']
+    
+    df_cont.reindex(numpy.random.permutation(df_cont.index))
+    df_b1.reindex(numpy.random.permutation(df_b1.index))
+    df_b2.reindex(numpy.random.permutation(df_b2.index))
 
     def fold_up(data_frame):
         total = len(data_frame)
