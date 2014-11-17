@@ -218,7 +218,7 @@ def init_files(year_month, output_dir):
         FILES[name] = open(
             os.path.join(output_dir, '%s_%s' % (year_month, name)), 'w')
         prefix = '%s_%s' % (year_month, name)
-        FILES[name].write('%s_min,%s_max,%s_mean,%s_hist\n' % (prefix, prefix, prefix, prefix))
+        FILES[name].write('%s_min,%s_max,%s_mean,%s_hist,%s_tendency\n' % (prefix, prefix, prefix, prefix, prefix))
 
 def close_files():
     for k,v in FILES.iteritems():
