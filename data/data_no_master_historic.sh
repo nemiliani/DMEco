@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo 'joining historic'
-python join_select.py -m months/201404.txt -l \
+python join_select.py -m months/$1 -l \
     historic.bak/201404/201404_cautoservicio_transacciones  \
     historic.bak/201404/201404_ccajeros_ajenos_transacciones \
     historic.bak/201404/201404_ccajeros_propios_descuentos \
@@ -142,10 +142,10 @@ python join_select.py -m months/201404.txt -l \
     historic.bak/201404/201404_Visa_msaldototal \
     historic.bak/201404/201404_Visa_tadelantosefectivo \
     historic.bak/201404/201404_Visa_tconsumos \
- -c 0 1 2 3 4 > data_no_master_historic/data_no_master_historic.csv
+ -c 0 1 2 3 4 > data_no_master_historic/data_no_master_historic.$2.csv
 
 echo 'removing'
-python remove.py -f data_no_master_historic/data_no_master_historic.csv -o data_no_master_historic/data_no_master_historic.csv.removed -c \
+python remove.py -f data_no_master_historic/data_no_master_historic.$2.csv -o data_no_master_historic/data_no_master_historic.csv.$2.removed -c \
     Master_mfinanciacion_limite \
     Master_msaldototal \
     Master_msaldopesos \
@@ -170,5 +170,5 @@ python remove.py -f data_no_master_historic/data_no_master_historic.csv -o data_
     Visa_fechaalta 
 
 echo 'cleaning'
-python clean.py -f data_no_master_historic/data_no_master_historic.csv.removed -o data_no_master_historic/data_no_master_historic.csv.removed.clean
+python clean.py -f data_no_master_historic/data_no_master_historic.csv.$2.removed -o data_no_master_historic/data_no_master_historic.csv.removed.$2.clean
 

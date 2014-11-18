@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo removing
-python remove.py -f months/201404.txt -o data_no_master/data_no_master.csv.removed -c \
+python remove.py -f months/$1 -o data_no_master/data_no_master.csv.$2.removed -c \
     Master_mfinanciacion_limite \
     Master_msaldototal \
     Master_msaldopesos \
@@ -23,5 +23,5 @@ python remove.py -f months/201404.txt -o data_no_master/data_no_master.csv.remov
     
 
 echo 'cleaning'
-python clean.py -f data_no_master/data_no_master.csv.removed -o data_no_master/data_no_master.csv.removed.clean
+python clean.py -f data_no_master/data_no_master.csv.$2.removed -o data_no_master/data_no_master.csv.removed.$2.clean
 
