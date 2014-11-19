@@ -41,7 +41,7 @@ if __name__ == '__main__':
     })
 
     def get_class_counters(df_probs):
-        df_p2 = df_probs[df_probs.loc[:,'pb2'] > 0.02])
+        df_p2 = df_probs[df_probs.loc[:,'pb2'] > 0.02]
         df_good = df_p2[df_p2.clase == 'BAJA+2']
         return len(df_p2), len(df_good)
 
