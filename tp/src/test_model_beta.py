@@ -51,5 +51,5 @@ if __name__ == '__main__':
 
     q_p2, q_baja2 = get_class_counters(df_train)
     gain = get_gain(q_baja2, q_p2 - q_baja2)
-    print '%d,%d,%d' % (q_p2, q_baja2, gain)    
+    print '%d - %d - %d' % (q_p2, q_baja2, gain)    
     
