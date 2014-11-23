@@ -32,6 +32,7 @@ if __name__ == '__main__':
     april_data = april[cols]
     
     i = 0
+    df_train = pandas.DataFrame()
     for m in args.models:
         clf = pickle.load(open(m,'rb'))    
         predicted_proba_train = clf.predict_proba(april_data)
