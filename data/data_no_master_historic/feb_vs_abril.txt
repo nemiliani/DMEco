@@ -193,3 +193,203 @@ dumping model to ../../data/data_no_master_historic/model.1150.150.pickle
 15494 - 736 - 2130600
 split : 1150, leave: 150
 ---------------------
+dumping model to ../../data/data_no_master_historic/model.1450.200.pickle
+13920 - 826 - 2738000
+19467 - 739 - 1748300
+split : 1450, leave: 200
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2200.50.pickle
+13372 - 807 - 2697800
+15929 - 709 - 1952100
+split : 2200, leave: 50
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1750.350.pickle
+14095 - 836 - 2770500
+16193 - 729 - 2025700
+split : 1750, leave: 350
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1000.350.pickle
+13666 - 845 - 2858400
+16469 - 749 - 2098100
+split : 1000, leave: 350
+---------------------
+dumping model to ../../data/data_no_master_historic/model.850.150.pickle
+13655 - 835 - 2809500
+18139 - 733 - 1851100
+split : 850, leave: 150
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1900.150.pickle
+13443 - 836 - 2835700
+15492 - 743 - 2165800
+split : 1900, leave: 150
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2500.250.pickle
+14021 - 841 - 2802900
+17104 - 740 - 1989600
+split : 2500, leave: 250
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1750.50.pickle
+13495 - 821 - 2755500
+14790 - 709 - 2066000
+split : 1750, leave: 50
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1750.200.pickle
+13591 - 829 - 2785900
+17282 - 728 - 1911800
+split : 1750, leave: 200
+---------------------
+dumping model to ../../data/data_no_master_historic/model.550.150.pickle
+13495 - 839 - 2845500
+19081 - 740 - 1791900
+split : 550, leave: 150
+---------------------
+dumping model to ../../data/data_no_master_historic/model.550.250.pickle
+13652 - 841 - 2839800
+16685 - 743 - 2046500
+split : 550, leave: 250
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1600.150.pickle
+13575 - 833 - 2807500
+15750 - 729 - 2070000
+split : 1600, leave: 150
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2050.250.pickle
+13495 - 821 - 2755500
+15042 - 717 - 2080800
+split : 2050, leave: 250
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1450.100.pickle
+13147 - 813 - 2750300
+16573 - 720 - 1942700
+split : 1450, leave: 100
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1000.200.pickle
+13384 - 836 - 2841600
+15963 - 745 - 2128700
+split : 1000, leave: 200
+---------------------
+dumping model to ../../data/data_no_master_historic/model.700.250.pickle
+13410 - 836 - 2839000
+17919 - 735 - 1883100
+split : 700, leave: 250
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2500.100.pickle
+13623 - 830 - 2787700
+21846 - 750 - 1565400
+split : 2500, leave: 100
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1300.200.pickle
+13770 - 833 - 2788000
+18093 - 733 - 1855700
+split : 1300, leave: 200
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1600.350.pickle
+14061 - 837 - 2778900
+16575 - 737 - 2027500
+split : 1600, leave: 350
+---------------------
+dumping model to ../../data/data_no_master_historic/model.700.150.pickle
+13288 - 818 - 2761200
+15799 - 729 - 2065100
+split : 700, leave: 150
+---------------------
+dumping model to ../../data/data_no_master_historic/model.700.200.pickle
+13198 - 834 - 2850200
+15052 - 734 - 2164800
+split : 700, leave: 200
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1000.150.pickle
+13472 - 835 - 2827800
+16347 - 730 - 2015300
+split : 1000, leave: 150
+---------------------
+dumping model to ../../data/data_no_master_historic/model.700.50.pickle
+12885 - 844 - 2931500
+15417 - 735 - 2133300
+split : 700, leave: 50
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2950.100.pickle
+13426 - 824 - 2777400
+15498 - 718 - 2040200
+split : 2950, leave: 100
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1900.100.pickle
+13559 - 814 - 2714100
+15005 - 732 - 2159500
+split : 1900, leave: 100
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2350.350.pickle
+14040 - 838 - 2786000
+16498 - 741 - 2055200
+split : 2350, leave: 350
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2200.200.pickle
+13947 - 834 - 2775300
+17359 - 741 - 1969100
+split : 2200, leave: 200
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1150.100.pickle
+12901 - 806 - 2739900
+14610 - 728 - 2179000
+split : 1150, leave: 100
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1900.50.pickle
+13338 - 831 - 2821200
+19552 - 739 - 1739800
+split : 1900, leave: 50
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1750.300.pickle
+14028 - 835 - 2772200
+16035 - 726 - 2026500
+split : 1750, leave: 300
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2500.200.pickle
+13838 - 836 - 2796200
+16201 - 745 - 2104900
+split : 2500, leave: 200
+---------------------
+dumping model to ../../data/data_no_master_historic/model.400.50.pickle
+12868 - 840 - 2913200
+15878 - 736 - 2092200
+split : 400, leave: 50
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1600.400.pickle
+14223 - 840 - 2777700
+16027 - 734 - 2067300
+split : 1600, leave: 400
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2200.350.pickle
+14076 - 842 - 2802400
+16592 - 737 - 2025800
+split : 2200, leave: 350
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2800.200.pickle
+14010 - 828 - 2739000
+17442 - 739 - 1950800
+split : 2800, leave: 200
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2950.50.pickle
+13486 - 822 - 2761400
+16034 - 733 - 2061600
+split : 2950, leave: 50
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1450.50.pickle
+13052 - 822 - 2804800
+18762 - 723 - 1738800
+split : 1450, leave: 50
+---------------------
+dumping model to ../../data/data_no_master_historic/model.550.200.pickle
+13360 - 836 - 2844000
+16641 - 738 - 2025900
+split : 550, leave: 200
+---------------------
+dumping model to ../../data/data_no_master_historic/model.1900.300.pickle
+13567 - 820 - 2743300
+14982 - 723 - 2116800
+split : 1900, leave: 300
+---------------------
+dumping model to ../../data/data_no_master_historic/model.2050.350.pickle
+13955 - 829 - 2749500
+15447 - 731 - 2110300
+split : 2050, leave: 350
+---------------------
