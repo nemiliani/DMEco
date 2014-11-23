@@ -9,7 +9,8 @@ python remove.py -f months/$1 -o data_nothing/data_nothing.csv.$2.removed -c \
     Visa_Fvencimiento \
     Visa_Finiciomora \
     Visa_fultimo_cierre \
-    Visa_fechaalta 
+    Visa_fechaalta  \
+    mrentabilidad
 
 echo 'cleaning'
-python clean.py -f data_nothing/data_nothing.csv.$2.removed -o data_nothing/data_nothing.csv.$2.clean
+python clean.py -f data_nothing/data_nothing.csv.$2.removed -o data_nothing/data_nothing.csv.$2.clean.mrent

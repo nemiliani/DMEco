@@ -9,7 +9,8 @@ python remove.py -f months/$1.txt -o data_historic/data_historic.csv.$2.removed 
     Visa_Fvencimiento \
     Visa_Finiciomora \
     Visa_fultimo_cierre \
-    Visa_fechaalta 
+    Visa_fechaalta \
+    mrentabilidad
 
 echo 'joining historic'
 python join_select.py -m data_historic/data_historic.csv.$2.removed -l \
@@ -102,7 +103,6 @@ python join_select.py -m data_historic/data_historic.csv.$2.removed -l \
     historic.bak/$1/$1_mprestamos_hipotecarios \
     historic.bak/$1/$1_mprestamos_personales \
     historic.bak/$1/$1_mprestamos_prendarios \
-    historic.bak/$1/$1_mrentabilidad \
     historic.bak/$1/$1_mrentabilidad_annual \
     historic.bak/$1/$1_mtarjeta_master_consumo \
     historic.bak/$1/$1_mtarjeta_master_descuentos \
@@ -175,5 +175,5 @@ python join_select.py -m data_historic/data_historic.csv.$2.removed -l \
 
 
 echo 'cleaning'
-python clean.py -f data_historic/data_historic.$2.csv -o data_historic/data_historic.csv.$2.clean
+python clean.py -f data_historic/data_historic.$2.csv -o data_historic/data_historic.csv.$2.clean.mrent
 

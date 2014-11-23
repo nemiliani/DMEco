@@ -19,9 +19,10 @@ python remove.py -f months/$1.txt -o months/$1.txt.removed -c \
     Visa_Fvencimiento \
     Visa_Finiciomora \
     Visa_fultimo_cierre \
-    Visa_fechaalta 
+    Visa_fechaalta \
+    mrentabilidad
     
 
 echo 'cleaning'
-python clean.py -f months/$1.txt.removed -o months/$1.txt.data_no_master.clean
+python clean.py -f months/$1.txt.removed -o months/$1.txt.data_no_master.clean.mrent
 
