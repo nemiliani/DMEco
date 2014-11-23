@@ -32,15 +32,13 @@ if __name__ == '__main__':
     april_data = april[cols]
     
     i = 0
-    df_train = pandas.DataFrame()
+    df_train = pandas.DataFrame({'clase':list(april['clase'])})
     for m in args.models:
         clf = pickle.load(open(m,'rb'))    
         predicted_proba_train = clf.predict_proba(april_data)
         df_train['pb2_%d' % i] = predicted_proba_train
         i += 1
-
-    df_train['pb2'] = df_train.mean(axis=1)
-    df_train['clase'] = april['clase']
+    df_train['pb2'] = df_train.mean(axis=1, numeric_only=True)
 
     def get_class_counters(df_probs):
         df_p2 = df_probs[df_probs.loc[:,'pb2'] > 0.02]
