@@ -36,7 +36,7 @@ if __name__ == '__main__':
     for m in args.models:
         clf = pickle.load(open(m,'rb'))    
         predicted_proba_train = clf.predict_proba(april_data)
-        df_train['pb2_%d' % i] = predicted_proba_train
+        df_train['pb2_%d' % i] = predicted_proba_train[:,1]
         i += 1
     df_train['pb2'] = df_train.mean(axis=1, numeric_only=True)
 
