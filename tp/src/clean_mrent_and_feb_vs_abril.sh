@@ -12,6 +12,6 @@ source data_no_master_historic.sh 201404 febrero
 cd -
 source data_nothing_feb_vs_abril.sh >> ../../data/data_nothing/feb_vs_abril.txt.mrent
 source data_no_master_feb_vs_abril.sh >> ../../data/data_no_master/feb_vs_abril.txt.mrent
-source data_no_master_historic_feb_vs_abril.sh >> ../../data/data_no_master_historic/feb_vs_abril.txt.mrent
 source data_historic_feb_vs_abril.sh >> ../../data/data_historic/feb_vs_abril.txt.mrent
+source data_no_master_historic_feb_vs_abril.sh >> ../../data/data_no_master_historic/feb_vs_abril.txt.mrent
 
