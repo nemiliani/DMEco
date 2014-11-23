@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python test_ensamble_beta.py -f ../../data/data_no_master_historic/data_no_master_historic.csv.removed.febrero.clean -e \
+python test_ensamble_beta.py -f ../../data/data_no_master_historic/data_no_master_historic.csv.removed.abril.clean -e \
 ../../data/data_no_master_historic/model.250.50.pickle \
 ../../data/data_no_master_historic/model.100.50.pickle \
 ../../data/data_no_master_historic/model.550.50.pickle \
