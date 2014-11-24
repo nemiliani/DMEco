@@ -40,6 +40,6 @@ if __name__ == '__main__':
         i += 1
     df_train['pb2'] = df_train.mean(axis=1, numeric_only=True)
     df_p2 = df_probs[df_probs.loc[:,'pb2'] > 0.02]
-    for uid in list(df_p2['numero_de_cliente'])
+    for uid in list(df_p2['numero_de_cliente']):
         print uid
     
