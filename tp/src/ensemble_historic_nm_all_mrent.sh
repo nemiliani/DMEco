@@ -1,0 +1,59 @@
+#!/bin/bash
+
+python test_ensamble_beta.py -f ../../data/data_no_master_historic/data_no_master_historic.csv.removed.abril.clean.mrent -e \
+../../data/data_no_master_historic/model.250.50.mren.pickle \
+../../data/data_no_master_historic/model.100.50.mren.pickle \
+../../data/data_no_master_historic/model.1300.150.mren.pickle \
+../../data/data_no_master_historic/model.550.50.mren.pickle \
+../../data/data_no_master_historic/model.1150.50.mren.pickle \
+../../data/data_no_master_historic/model.250.150.mren.pickle \
+../../data/data_no_master_historic/model.250.100.mren.pickle \
+../../data/data_no_master_historic/model.400.250.mren.pickle \
+../../data/data_no_master_historic/model.250.200.mren.pickle \
+../../data/data_no_master_historic/model.850.100.mren.pickle \
+../../data/data_no_master_historic/model.550.300.mren.pickle \
+../../data/data_no_master_historic/model.1600.100.mren.pickle \
+../../data/data_no_master_historic/model.400.150.mren.pickle \
+../../data/data_no_master_historic/model.400.200.mren.pickle \
+../../data/data_no_master_historic/model.1450.150.mren.pickle \
+../../data/data_no_master_historic/model.550.100.mren.pickle \
+../../data/data_no_master_historic/model.1150.300.mren.pickle \
+../../data/data_no_master_historic/model.2350.50.mren.pickle \
+../../data/data_no_master_historic/model.1750.100.mren.pickle \
+../../data/data_no_master_historic/model.2050.50.mren.pickle \
+../../data/data_no_master_historic/model.2050.100.mren.pickle \
+../../data/data_no_master_historic/model.1750.450.mren.pickle \
+../../data/data_no_master_historic/model.1000.50.mren.pickle \
+../../data/data_no_master_historic/model.1750.150.mren.pickle \
+../../data/data_no_master_historic/model.1000.100.mren.pickle \
+../../data/data_no_master_historic/model.1150.150.mren.pickle \
+../../data/data_no_master_historic/model.2200.50.mren.pickle \
+../../data/data_no_master_historic/model.1000.350.mren.pickle \
+../../data/data_no_master_historic/model.850.150.mren.pickle \
+../../data/data_no_master_historic/model.1900.150.mren.pickle \
+../../data/data_no_master_historic/model.2500.250.mren.pickle \
+../../data/data_no_master_historic/model.1750.200.mren.pickle \
+../../data/data_no_master_historic/model.550.150.mren.pickle \
+../../data/data_no_master_historic/model.550.250.mren.pickle \
+../../data/data_no_master_historic/model.1600.150.mren.pickle \
+../../data/data_no_master_historic/model.2050.250.mren.pickle \
+../../data/data_no_master_historic/model.700.250.mren.pickle \
+../../data/data_no_master_historic/model.2500.100.mren.pickle \
+../../data/data_no_master_historic/model.1300.200.mren.pickle \
+../../data/data_no_master_historic/model.1600.350.mren.pickle \
+../../data/data_no_master_historic/model.700.150.mren.pickle \
+../../data/data_no_master_historic/model.700.200.mren.pickle \
+../../data/data_no_master_historic/model.700.50.mren.pickle \
+../../data/data_no_master_historic/model.2350.350.mren.pickle \
+../../data/data_no_master_historic/model.2200.200.mren.pickle \
+../../data/data_no_master_historic/model.1150.100.mren.pickle \
+../../data/data_no_master_historic/model.1900.50.mren.pickle \
+../../data/data_no_master_historic/model.1750.300.mren.pickle \
+../../data/data_no_master_historic/model.2500.200.mren.pickle \
+../../data/data_no_master_historic/model.400.50.mren.pickle \
+../../data/data_no_master_historic/model.1600.400.mren.pickle \
+../../data/data_no_master_historic/model.2800.200.mren.pickle \
+../../data/data_no_master_historic/model.2950.50.mren.pickle \
+../../data/data_no_master_historic/model.1450.50.mren.pickle \
+../../data/data_no_master_historic/model.550.200.mren.pickle
+
