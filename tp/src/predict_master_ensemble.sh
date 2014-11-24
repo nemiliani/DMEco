@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python predict_master_ensemble.py -f ../../data/master_models/data_no_master_historic.csv.removed.junio.clean.mrent -e \
+python predict_ensamble_beta.py -f ../../data/master_models/data_no_master_historic.csv.removed.junio.clean.mrent -e \
 ../../data/master_models/model.1000.100.master.pickle \
 ../../data/master_models/model.1000.350.master.pickle \
 ../../data/master_models/model.1000.50.master.pickle \
