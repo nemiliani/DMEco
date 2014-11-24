@@ -33,12 +33,17 @@ if __name__ == '__main__':
     
     i = 0
     df_train = pandas.DataFrame({'clase':list(april['clase'])})
+    print len(df_train)
+    cols = []
     for m in args.models:
         clf = pickle.load(open(m,'rb'))    
         predicted_proba_train = clf.predict_proba(april_data)
         df_train['pb2_%d' % i] = predicted_proba_train[:,1]
+        cols.append('pb2_%d' % i)
         i += 1
-    df_train['pb2'] = df_train.mean(axis=1, numeric_only=True)
+    df_probs = df_train[cols]
+    df_probs['pb2'] = df_probs.mean(axis=1, numeric_only=True)
+    df_probs['numero_de_cliente'] = april['numero_de_cliente']
     df_p2 = df_probs[df_probs.loc[:,'pb2'] > 0.02]
     for uid in list(df_p2['numero_de_cliente']):
         print uid
